@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "713680475181",
+    "project_id": "myfunbook-f899e",
+    "storage_bucket": "myfunbook-f899e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713680475181:android:1b2d307d46996cf3d814a4",
+        "android_client_info": {
+          "package_name": "com.example.myfunbook.myfunbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713680475181-eni6uapu1n3fkmmf9vc7ja78uu2gp3gv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myfunbook.myfunbook",
+            "certificate_hash": "acd3c95d7976bd7989b734f92fb140fa5e460f1e"
+          }
+        },
+        {
+          "client_id": "713680475181-lkog6fipatmrtqlifqu686vlmgddnki7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBxPcNdFc_iinZHTTYcj__Yf8tu9aqK40"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713680475181-lkog6fipatmrtqlifqu686vlmgddnki7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
