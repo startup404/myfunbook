@@ -10,8 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-    options: FirebaseOptions(apiKey: "AIzaSyBBxPcNdFc_iinZHTTYcj__Yf8tu9aqK40", appId: "1:713680475181:android:1b2d307d46996cf3d814a4", messagingSenderId: "713680475181", projectId: "myfunbook-f899e",
-    )
+    options: FirebaseOptions(apiKey: "AIzaSyBBxPcNdFc_iinZHTTYcj__Yf8tu9aqK40", appId: "1:713680475181:android:1b2d307d46996cf3d814a4", messagingSenderId: "713680475181", projectId: "myfunbook-f899e",)
   );
   Get.put(authcontroller());
   
