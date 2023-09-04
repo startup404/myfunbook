@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myfunbook/controllers/auth_controller.dart';
+import 'package:myfunbook/controllers/profile_controller.dart';
 
 class profile extends StatefulWidget
 {
@@ -13,7 +18,30 @@ class profile extends StatefulWidget
 
 class _profilestate extends State<profile>
 {
+  TextEditingController _name =TextEditingController();
+  TextEditingController _email =TextEditingController();
+  TextEditingController _mobile =TextEditingController();
   final currentuser = FirebaseAuth.instance.currentUser!;
+  String UidToFetch = '';
+  bool isUpdateButtonEnabled = false;
+  DatabaseReference dref = FirebaseDatabase.instance.ref().child('User Details');
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    UidToFetch = currentuser.email!.split('@')[0].toString();
+    dref = dref.child(UidToFetch);
+    dref.onValue.listen((DatabaseEvent event){
+      if(event.snapshot.value != null){
+        Map<String, dynamic>? userData = event.snapshot.value as Map<String, dynamic>?;
+        _name.text = userData!['Username'];
+        _email.text = userData['email'];
+        _mobile.text = userData['mobile'];
+      }
+    } );
+  }
+  
+
   @override
   Widget build(BuildContext context)
   {
@@ -39,7 +67,7 @@ class _profilestate extends State<profile>
                 bottomLeft: Radius.circular(20))
               ),
             ),
-            
+            Obx((){return
             Padding(
               padding: EdgeInsets.only(top: 270),
               child:SingleChildScrollView(
@@ -49,13 +77,13 @@ class _profilestate extends State<profile>
                   
 
                   const SizedBox(height: 10,),
-
                   Padding(padding: EdgeInsets.only(top: 20,left: 80),
                   child: Text("Name",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),),
                   Padding(
                     padding:EdgeInsets.symmetric(horizontal: 20.0),
                   child:TextFormField(
-                    readOnly: true,
+                    readOnly: profilecontroller.instance.isEdit.value,
+                    controller: _name,
                     style: TextStyle(color:Colors.black),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -69,7 +97,13 @@ class _profilestate extends State<profile>
                         child: Icon(Icons.person_outlined,
                         color: Colors.black),
                       ),
-                      suffixIcon: Container(
+                      
+                      suffixIcon: GestureDetector(
+                        onTap: (){
+                          profilecontroller.instance.toggleEdit();
+                          isUpdateButtonEnabled=true;
+                        },
+                      child:Container(
                         height: 25,
                         width: 25,
                         decoration: BoxDecoration(
@@ -78,18 +112,21 @@ class _profilestate extends State<profile>
                         ),
                         child: Icon(Icons.edit_outlined,
                         color: Colors.black),
-                      )
+                      ))
                     ),
                   )),
 
                   const SizedBox(height: 10,),
+
+//Email Id Text Form Field-2...
 
                   Padding(padding: EdgeInsets.only(top: 20,left: 80),
                   child: Text("Email",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),),
                   Padding(
                     padding:EdgeInsets.symmetric(horizontal: 20.0),
                   child:TextFormField(
-                    readOnly: true,
+                    readOnly: profilecontroller.instance.isEdit.value,
+                    controller: _email,
                     style: TextStyle(color:Colors.black),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -103,7 +140,11 @@ class _profilestate extends State<profile>
                         child: Icon(Icons.email_outlined,
                         color: Colors.black),
                       ),
-                      suffixIcon: Container(
+                      suffixIcon:GestureDetector(onTap:(){
+                        profilecontroller.instance.toggleEdit();
+                          isUpdateButtonEnabled=true;
+                      },
+                      child:Container(
                         height: 25,
                         width: 25,
                         decoration: BoxDecoration(
@@ -112,17 +153,20 @@ class _profilestate extends State<profile>
                         ),
                         child: Icon(Icons.edit_outlined,
                         color: Colors.black),
-                      )
+                      ))
                     ),
                   )),
                   const SizedBox(height: 10,),
+
+//Mobile Number Text Form Field-3...
 
                   Padding(padding: EdgeInsets.only(top: 20,left: 80),
                   child: Text("Mobile",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),),
                   Padding(
                     padding:EdgeInsets.symmetric(horizontal: 20.0),
                   child:TextFormField(
-                    readOnly: true,
+                    readOnly: profilecontroller.instance.isEdit.value,
+                    controller: _mobile,
                     style: TextStyle(color:Colors.black),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -136,7 +180,11 @@ class _profilestate extends State<profile>
                         child: Icon(Icons.phone_android_outlined,
                         color: Colors.black),
                       ),
-                      suffixIcon: Container(
+                      suffixIcon:GestureDetector(onTap:(){
+                        profilecontroller.instance.toggleEdit();
+                          isUpdateButtonEnabled=true;
+                      },
+                      child:Container(
                         height: 25,
                         width: 25,
                         decoration: BoxDecoration(
@@ -145,9 +193,51 @@ class _profilestate extends State<profile>
                         ),
                         child: Icon(Icons.edit_outlined,
                         color: Colors.black),
-                      )
+                      ))
                     ),
-                  )),
+                  ),),
+
+                 const SizedBox(height: 10,),
+
+//Update button...
+
+                 Padding(padding: EdgeInsets.symmetric(horizontal:25 ,vertical:5),
+
+                  child: ElevatedButton(
+                              onPressed:isUpdateButtonEnabled?(){
+                                dref.update({'Username':_name.text , 'email':_email.text , 'mobile':_mobile.text}).then((_) {
+              // Update successful, disable editing mode
+              setState(() {
+                isUpdateButtonEnabled = false;
+              });
+              profilecontroller.instance.getsuccesssnackbar("Updated Successfully");
+            }).catchError((error) {
+              // Handle update error, e.g., show an error message
+              print("Error updating name: $error");
+              profilecontroller.instance.geterrorsnackbar("Update Failed", error);
+            });}:null,
+
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5))),
+                                  
+                              child: Center(
+                                  child: Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Text(
+                                  "Update",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              )),
+                            )),
+
+
+
+
+
                   const Divider(
                       thickness: 1,
                       color: Colors.grey,
@@ -212,7 +302,7 @@ class _profilestate extends State<profile>
  
                 ],
               ),)
-            ),
+            );}),
 
             Positioned(
               top:140,

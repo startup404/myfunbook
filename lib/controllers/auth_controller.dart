@@ -14,7 +14,7 @@ class authcontroller extends GetxController{
   bool islogging=false;
 
   final FirebaseAuth auth = FirebaseAuth.instance;
-  //final dataref = FirebaseDatabase.instance.ref("User Details");
+  final dataref = FirebaseDatabase.instance.ref("User Details");
 
   @override
   void onReady() {
@@ -41,12 +41,14 @@ class authcontroller extends GetxController{
     });
   }
 
-  void registeruser(email,password) async{
+  void registeruser(user,email,password) async{
     islogging=true;
     try{
       await auth.createUserWithEmailAndPassword(email: email, password: password);
-      // dataref.child('$email').set({
-      //   "Username": email.split('@')[0]        
+      dataref.child(email.split('@')[0].toString()).set({
+        "Username": user ,
+        "email": email ,
+        "mobile": "No Phonenumber"});        
       
     }on FirebaseAuthException catch(e){
       //define error

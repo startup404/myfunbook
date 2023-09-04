@@ -159,7 +159,7 @@ class _signupstate extends State<signuppage> {
                             InputValidator.validateField("Email", _email.text.trim())) {
                           if (InputValidator.validatePassword(_pwd.text, _cnfrmpwd.text)) {
                             authcontroller.instance
-                                .registeruser(_email.text.trim(), _pwd.text.trim());
+                                .registeruser(_username.text.trim(),_email.text.trim(), _pwd.text.trim());
                           }
                         }
                               },
