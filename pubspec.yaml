@@ -47,7 +47,7 @@ dependencies:
   get:
   firebase_database: ^10.2.5
   firebase_storage:
-  cloud_firestore:
+
 
 dev_dependencies:
   flutter_test:

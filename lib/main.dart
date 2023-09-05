@@ -10,10 +10,9 @@ import 'package:myfunbook/pages/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: FirebaseOptions(apiKey: "AIzaSyBBxPcNdFc_iinZHTTYcj__Yf8tu9aqK40", appId: "1:713680475181:android:1b2d307d46996cf3d814a4", messagingSenderId: "713680475181", projectId: "myfunbook-f899e",
-    authDomain:'myfunbook-f899e.firebaseapp.com' ,databaseURL:"https://myfunbook-f899e-default-rtdb.firebaseio.com/",storageBucket: "myfunbook-f899e.appspot.com")
-  );
+  await Firebase.initializeApp(options: FirebaseOptions(apiKey: "AIzaSyBBxPcNdFc_iinZHTTYcj__Yf8tu9aqK40", appId: "1:713680475181:android:1b2d307d46996cf3d814a4", messagingSenderId: "713680475181", projectId: "myfunbook-f899e",
+    authDomain:'myfunbook-f899e.firebaseapp.com' ,databaseURL:"https://myfunbook-f899e-default-rtdb.firebaseio.com/",storageBucket: "myfunbook-f899e.appspot.com"));//storageBucket: "myfunbook-f899e.appspot.com")
+  //);
   Get.put(authcontroller());
   Get.put(profilecontroller());
   runApp(MyApp());

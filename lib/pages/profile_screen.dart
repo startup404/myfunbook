@@ -82,7 +82,7 @@ class _profilestate extends State<profile>
                   Padding(
                     padding:EdgeInsets.symmetric(horizontal: 20.0),
                   child:TextFormField(
-                    readOnly: profilecontroller.instance.isEdit.value,
+                    readOnly: profilecontroller.instance.isnameEdit.value,
                     controller: _name,
                     style: TextStyle(color:Colors.black),
                     decoration: InputDecoration(
@@ -100,7 +100,7 @@ class _profilestate extends State<profile>
                       
                       suffixIcon: GestureDetector(
                         onTap: (){
-                          profilecontroller.instance.toggleEdit();
+                          profilecontroller.instance.togglenameEdit();
                           isUpdateButtonEnabled=true;
                         },
                       child:Container(
@@ -125,7 +125,7 @@ class _profilestate extends State<profile>
                   Padding(
                     padding:EdgeInsets.symmetric(horizontal: 20.0),
                   child:TextFormField(
-                    readOnly: profilecontroller.instance.isEdit.value,
+                    readOnly: profilecontroller.instance.isemailEdit.value,
                     controller: _email,
                     style: TextStyle(color:Colors.black),
                     decoration: InputDecoration(
@@ -141,7 +141,7 @@ class _profilestate extends State<profile>
                         color: Colors.black),
                       ),
                       suffixIcon:GestureDetector(onTap:(){
-                        profilecontroller.instance.toggleEdit();
+                        profilecontroller.instance.toggleemailEdit();
                           isUpdateButtonEnabled=true;
                       },
                       child:Container(
@@ -165,7 +165,7 @@ class _profilestate extends State<profile>
                   Padding(
                     padding:EdgeInsets.symmetric(horizontal: 20.0),
                   child:TextFormField(
-                    readOnly: profilecontroller.instance.isEdit.value,
+                    readOnly: profilecontroller.instance.ismobileEdit.value,
                     controller: _mobile,
                     style: TextStyle(color:Colors.black),
                     decoration: InputDecoration(
@@ -181,7 +181,7 @@ class _profilestate extends State<profile>
                         color: Colors.black),
                       ),
                       suffixIcon:GestureDetector(onTap:(){
-                        profilecontroller.instance.toggleEdit();
+                        profilecontroller.instance.togglemobileEdit();
                           isUpdateButtonEnabled=true;
                       },
                       child:Container(
@@ -215,7 +215,12 @@ class _profilestate extends State<profile>
               // Handle update error, e.g., show an error message
               print("Error updating name: $error");
               profilecontroller.instance.geterrorsnackbar("Update Failed", error);
-            });}:null,
+            });
+            profilecontroller.instance.isnameEdit=true.obs;
+            profilecontroller.instance.isemailEdit=true.obs;
+            profilecontroller.instance.ismobileEdit=true.obs;
+
+            }:null,
 
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.black,

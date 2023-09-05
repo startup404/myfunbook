@@ -8,10 +8,22 @@ class profilecontroller extends GetxController
   
   static profilecontroller instance = Get.find();
 
-  RxBool isEdit = false.obs;
+  RxBool isnameEdit = true.obs;
 
-  toggleEdit() {
-    isEdit.toggle();
+  togglenameEdit() {
+    isnameEdit.toggle();
+  }
+
+  RxBool isemailEdit = true.obs;
+
+  toggleemailEdit() {
+    isemailEdit.toggle();
+  }
+
+  RxBool ismobileEdit = true.obs;
+
+  togglemobileEdit() {
+    ismobileEdit.toggle();
   }
 
   geterrorsnackbar(String message, _){
