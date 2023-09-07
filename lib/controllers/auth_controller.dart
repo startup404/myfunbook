@@ -86,6 +86,7 @@ class authcontroller extends GetxController{
         idToken: googleauth?.idToken
       );
       await auth.signInWithCredential(credentials);
+
     }}
     on FirebaseAuthException catch(e){
       geterrorsnackbar("Google Login Failed", e);

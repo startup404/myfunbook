@@ -24,6 +24,9 @@ class _profilestate extends State<profile>
   final currentuser = FirebaseAuth.instance.currentUser!;
   String UidToFetch = '';
   bool isUpdateButtonEnabled = false;
+  FocusNode _focusNodename = FocusNode();
+  FocusNode _focusNodeemail = FocusNode();
+  FocusNode _focusNodemobile = FocusNode();
   DatabaseReference dref = FirebaseDatabase.instance.ref().child('User Details');
   @override
   void initState() {
@@ -31,12 +34,14 @@ class _profilestate extends State<profile>
     super.initState();
     UidToFetch = currentuser.email!.split('@')[0].toString();
     dref = dref.child(UidToFetch);
+    print(UidToFetch);
+
     dref.onValue.listen((DatabaseEvent event){
       if(event.snapshot.value != null){
-        Map<String, dynamic>? userData = event.snapshot.value as Map<String, dynamic>?;
-        _name.text = userData!['Username'];
-        _email.text = userData['email'];
-        _mobile.text = userData['mobile'];
+        Map<Object?, Object?>? userData = event.snapshot.value as Map<Object?, Object?>?;
+        _name.text = userData!['Username' as Object] as String;
+        _email.text = userData['email'as Object] as String;
+        _mobile.text = userData['mobile' as Object] as String;
       }
     } );
   }
@@ -60,7 +65,7 @@ class _profilestate extends State<profile>
         child: Stack(
           children: [
             Container(
-              height: 200,width: double.maxFinite,
+              height: 120,width: double.maxFinite,
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.only(bottomRight: Radius.circular(20),
@@ -69,7 +74,7 @@ class _profilestate extends State<profile>
             ),
             Obx((){return
             Padding(
-              padding: EdgeInsets.only(top: 270),
+              padding: EdgeInsets.only(top: 200),
               child:SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,24 +87,26 @@ class _profilestate extends State<profile>
                   Padding(
                     padding:EdgeInsets.symmetric(horizontal: 20.0),
                   child:TextFormField(
+                    focusNode: _focusNodename,
                     readOnly: profilecontroller.instance.isnameEdit.value,
                     controller: _name,
                     style: TextStyle(color:Colors.black),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderSide: BorderSide.none),
-                      prefixIcon: Container(
+                      prefixIcon:Padding(padding: EdgeInsets.only(right:10.0),child: Container(
                         height: 25,
-                        width: 25,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         child: Icon(Icons.person_outlined,
                         color: Colors.black),
-                      ),
+                      )),
                       
                       suffixIcon: GestureDetector(
                         onTap: (){
+                          _focusNodename.requestFocus();
                           profilecontroller.instance.togglenameEdit();
                           isUpdateButtonEnabled=true;
                         },
@@ -125,22 +132,24 @@ class _profilestate extends State<profile>
                   Padding(
                     padding:EdgeInsets.symmetric(horizontal: 20.0),
                   child:TextFormField(
+                    focusNode: _focusNodeemail,
                     readOnly: profilecontroller.instance.isemailEdit.value,
                     controller: _email,
                     style: TextStyle(color:Colors.black),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderSide: BorderSide.none),
-                      prefixIcon: Container(
+                      prefixIcon:Padding(padding: EdgeInsets.only(right: 10.0),child:Container(
                         height: 25,
-                        width: 25,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         child: Icon(Icons.email_outlined,
                         color: Colors.black),
-                      ),
+                      )),
                       suffixIcon:GestureDetector(onTap:(){
+                        _focusNodeemail.requestFocus();
                         profilecontroller.instance.toggleemailEdit();
                           isUpdateButtonEnabled=true;
                       },
@@ -165,22 +174,24 @@ class _profilestate extends State<profile>
                   Padding(
                     padding:EdgeInsets.symmetric(horizontal: 20.0),
                   child:TextFormField(
+                    focusNode: _focusNodemobile,
                     readOnly: profilecontroller.instance.ismobileEdit.value,
                     controller: _mobile,
                     style: TextStyle(color:Colors.black),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderSide: BorderSide.none),
-                      prefixIcon: Container(
+                      prefixIcon:Padding(padding:EdgeInsets.only(right: 10.0) ,child:Container(
                         height: 25,
-                        width: 25,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         child: Icon(Icons.phone_android_outlined,
                         color: Colors.black),
-                      ),
+                      )),
                       suffixIcon:GestureDetector(onTap:(){
+                        _focusNodemobile.requestFocus();
                         profilecontroller.instance.togglemobileEdit();
                           isUpdateButtonEnabled=true;
                       },
@@ -310,7 +321,7 @@ class _profilestate extends State<profile>
             );}),
 
             Positioned(
-              top:140,
+              top:60,
                left: MediaQuery.of(context).size.width*0.5-60,
               child: 
             Center(
@@ -326,22 +337,22 @@ class _profilestate extends State<profile>
                   ),),
 
 
-            Positioned(
-              top: 210,
-              left: MediaQuery.of(context).size.width*0.5+20,
-              child:Container(
-                height: 50,width: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.black
-                ),
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.white,
-                ),
-
-              ),
-            )
+            // Positioned(
+            //   top: 140,
+            //   left: MediaQuery.of(context).size.width*0.5+20,
+            //   child:Container(
+            //     height: 50,width: 50,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(25),
+            //       color: Colors.black
+            //     ),
+            //     child: Icon(
+            //       Icons.camera_alt,
+            //       color: Colors.white,
+            //     ),
+            //
+            //   ),
+            // )
           ],
         ),
       ),

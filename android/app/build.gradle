@@ -79,4 +79,7 @@ dependencies {
 
         }
 
+        implementation 'com.google.firebase:firebase-database:20.0.2' // Use the latest version
+
+
 }

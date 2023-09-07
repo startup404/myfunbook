@@ -11,19 +11,22 @@ class profilecontroller extends GetxController
   RxBool isnameEdit = true.obs;
 
   togglenameEdit() {
-    isnameEdit.toggle();
+    if(isnameEdit == true.obs){
+    isnameEdit.toggle();}
   }
 
   RxBool isemailEdit = true.obs;
 
   toggleemailEdit() {
-    isemailEdit.toggle();
+    if(isemailEdit == true.obs){
+    isemailEdit.toggle();}
   }
 
   RxBool ismobileEdit = true.obs;
 
   togglemobileEdit() {
-    ismobileEdit.toggle();
+    if(ismobileEdit == true.obs){
+    ismobileEdit.toggle();}
   }
 
   geterrorsnackbar(String message, _){
